@@ -38,10 +38,9 @@ const task = async () => {
 };
 
 // Runs every 2 hours
-job = new CronJob('0 */2 * * *', task);
+job = new CronJob('0 */2 * * *', task, null, true, 'America/Sao_Paulo');
 
 const start = async () => {
-  job.start();
   const next = job.nextDate();
   const msg = `🚀 Auto-buy have been started.\n🕒 Next run: ${next}`;
   console.log(msg);
