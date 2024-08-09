@@ -34,6 +34,10 @@ const task = async () => {
     await telegramService.sendMessage(msg);
   } catch (error) {
     console.error('💰 Error while auto-buying:', error);
+
+    if (error instanceof Error) {
+      await telegramService.sendMessage(error.message);
+    }
   }
 };
 
