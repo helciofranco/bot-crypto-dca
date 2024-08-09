@@ -13,7 +13,7 @@ const task = async () => {
   console.log('💰 Starting auto-buy');
 
   try {
-    const [btc, eth] = await Promise.all([
+    const [btc, eth, usdt] = await Promise.all([
       binance.buy({
         base: Asset.Bitcoin,
         quote: Quote.BRL,
@@ -24,9 +24,17 @@ const task = async () => {
         quote: Quote.BRL,
         amount: 25,
       }),
+      binance.buy({
+        base: Asset.UsdTether,
+        quote: Quote.BRL,
+        amount: 25,
+      }),
     ]);
 
-    const message = `💰 ${btc.executed} BTC for R$ ${btc.paid}\nR$ ${btc.average}/BTC\n\n💰 ${eth.executed} ETH for R$ ${eth.paid}\nR$ ${eth.average}/ETH`;
+    let message = `💰 ${btc.executed} BTC for R$ ${btc.paid}\nR$ ${btc.average}/BTC\n\n`;
+    message += `💰 ${eth.executed} ETH for R$ ${eth.paid}\nR$ ${eth.average}/ETH\n\n`;
+    message += `💰 ${usdt.executed} USDT for R$ ${usdt.paid}\nR$ ${usdt.average}/USDT`;
+
     await telegramService.sendMessage(message);
 
     const msg = `🕒 Next run: ${job?.nextDate()}`;

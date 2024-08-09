@@ -7,6 +7,7 @@ export type Buy = {
 export enum Asset {
   Bitcoin = 'BTC',
   Ethereum = 'ETH',
+  UsdTether = 'USDT',
 }
 
 export enum Quote {
