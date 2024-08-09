@@ -57,4 +57,5 @@ const start = async () => {
 
 (async () => {
   await start();
+  await task();
 })();
