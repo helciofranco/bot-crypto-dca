@@ -1,11 +1,29 @@
 import { CronJob } from 'cron';
 import { TelegramService } from './modules/notification/TelegramService';
 import { BinanceService } from './modules/exchanges/BinanceService';
-import { Asset, Quote } from './modules/exchanges/types';
+import { Asset, type BuyParams, Quote } from './modules/exchanges/types';
 import { getMyIp } from './utils/getMyIp';
 
 let job: CronJob | undefined = undefined;
 const telegramService = new TelegramService();
+
+const assets: BuyParams[] = [
+  {
+    base: Asset.Bitcoin,
+    quote: Quote.BRL,
+    amount: 25,
+  },
+  {
+    base: Asset.Ethereum,
+    quote: Quote.BRL,
+    amount: 25,
+  },
+  {
+    base: Asset.UsdTether,
+    quote: Quote.BRL,
+    amount: 50,
+  },
+];
 
 const task = async () => {
   const binance = new BinanceService();
@@ -13,29 +31,16 @@ const task = async () => {
   console.log('💰 Starting auto-buy');
 
   try {
-    const [btc, eth, usdt] = await Promise.all([
-      binance.buy({
-        base: Asset.Bitcoin,
-        quote: Quote.BRL,
-        amount: 25,
-      }),
-      binance.buy({
-        base: Asset.Ethereum,
-        quote: Quote.BRL,
-        amount: 25,
-      }),
-      binance.buy({
-        base: Asset.UsdTether,
-        quote: Quote.BRL,
-        amount: 25,
-      }),
-    ]);
+    const orders = await Promise.all(assets.map(binance.buy));
 
-    let message = `💰 ${btc.executed} BTC for R$ ${btc.paid}\nR$ ${btc.average}/BTC\n\n`;
-    message += `💰 ${eth.executed} ETH for R$ ${eth.paid}\nR$ ${eth.average}/ETH\n\n`;
-    message += `💰 ${usdt.executed} USDT for R$ ${usdt.paid}\nR$ ${usdt.average}/USDT`;
+    const output = orders
+      .map((order, index) => {
+        const asset = assets[index];
+        return `💰 ${order.executed} ${asset.base} for ${order.paid} ${asset.quote}\n ${asset.quote} ${order.average}/${asset.base}`;
+      })
+      .join('\n\n');
 
-    await telegramService.sendMessage(message);
+    await telegramService.sendMessage(output);
 
     const msg = `🕒 Next run: ${job?.nextDate()}`;
     console.log(msg);
@@ -65,5 +70,4 @@ const start = async () => {
 
 (async () => {
   await start();
-  await task();
 })();
