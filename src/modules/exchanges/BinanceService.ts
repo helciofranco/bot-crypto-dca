@@ -33,7 +33,7 @@ export class BinanceService implements Exchange {
     const timestamp = await this.getServerTime();
     const queryString = `symbol=${symbol}&side=BUY&type=MARKET&quoteOrderQty=${amount}&timestamp=${timestamp}`;
     const signature = this.createSignature(queryString, this.secret);
-    const url = `/order?${queryString}&signature=${signature}`;
+    const url = `/order/test?${queryString}&signature=${signature}`;
 
     const { data } = await this.client.post<BinanceBuy>(url);
     const qtd = Number.parseFloat(data.cummulativeQuoteQty);

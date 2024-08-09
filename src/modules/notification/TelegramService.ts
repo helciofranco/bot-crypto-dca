@@ -13,6 +13,12 @@ export class TelegramService {
   }
 
   async sendMessage(message: string): Promise<void> {
+    console.log(message);
+
+    if (!config.telegram.enabled) {
+      return;
+    }
+
     await this.client.post('sendMessage', {
       chat_id: this.chatId,
       text: message,

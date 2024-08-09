@@ -31,7 +31,7 @@ const task = async () => {
   console.log('💰 Starting auto-buy');
 
   try {
-    const orders = await Promise.all(assets.map(binance.buy));
+    const orders = await Promise.all(assets.map((asset) => binance.buy(asset)));
 
     const output = orders
       .map((order, index) => {
@@ -42,12 +42,8 @@ const task = async () => {
 
     await telegramService.sendMessage(output);
 
-    const msg = `🕒 Next run: ${job?.nextDate()}`;
-    console.log(msg);
-    await telegramService.sendMessage(msg);
+    await telegramService.sendMessage(`🕒 Next run: ${job?.nextDate()}`);
   } catch (error) {
-    console.error('💰 Error while auto-buying:', error);
-
     if (error instanceof Error) {
       await telegramService.sendMessage(error.message);
     }
@@ -59,15 +55,15 @@ job = new CronJob('0 */2 * * *', task, null, true, 'America/Sao_Paulo');
 
 const start = async () => {
   const next = job.nextDate();
-  const msg = `🚀 Auto-buy have been started.\n🕒 Next run: ${next}`;
-  console.log(msg);
-  await telegramService.sendMessage(msg);
+  await telegramService.sendMessage(
+    `🚀 Auto-buy have been started.\n🕒 Next run: ${next}`,
+  );
 
   const ip = await getMyIp();
-  console.log(`📡 My IP is ${ip}`);
-  await telegramService.sendMessage(ip);
+  await telegramService.sendMessage(`📡 My IP is ${ip}`);
 };
 
 (async () => {
   await start();
+  await task();
 })();
