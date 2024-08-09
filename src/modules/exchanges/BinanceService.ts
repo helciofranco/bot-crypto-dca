@@ -8,6 +8,10 @@ type BinanceBuy = {
   cummulativeQuoteQty: string;
 };
 
+type ServerTime = {
+  serverTime: number;
+};
+
 export class BinanceService implements Exchange {
   private secret: string;
   private client: AxiosInstance;
@@ -26,7 +30,7 @@ export class BinanceService implements Exchange {
 
   async buy({ base, quote, amount }: BuyParams): Promise<Buy> {
     const symbol = `${base}${quote}`;
-    const timestamp = Date.now();
+    const timestamp = await this.getServerTime();
     const queryString = `symbol=${symbol}&side=BUY&type=MARKET&quoteOrderQty=${amount}&timestamp=${timestamp}`;
     const signature = this.createSignature(queryString, this.secret);
     const url = `/order?${queryString}&signature=${signature}`;
@@ -39,6 +43,11 @@ export class BinanceService implements Exchange {
       paid: qtd.toFixed(2),
       average: (Number.parseFloat(data.executedQty) / qtd).toFixed(2),
     };
+  }
+
+  private async getServerTime(): Promise<number> {
+    const { data } = await this.client.get<ServerTime>('/time');
+    return data.serverTime;
   }
 
   private createSignature(queryString: string, secretKey: string): string {
