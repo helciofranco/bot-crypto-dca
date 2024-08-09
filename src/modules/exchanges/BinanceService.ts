@@ -41,7 +41,7 @@ export class BinanceService implements Exchange {
     return {
       executed: data.executedQty,
       paid: qtd.toFixed(2),
-      average: (Number.parseFloat(data.executedQty) / qtd).toFixed(2),
+      average: (qtd / Number.parseFloat(data.executedQty)).toFixed(2),
     };
   }
 
