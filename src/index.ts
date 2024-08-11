@@ -11,15 +11,10 @@ const assets: BuyParams[] = [
   {
     base: Asset.Bitcoin,
     quote: Quote.BRL,
-    amount: 25,
+    amount: 50,
   },
   {
     base: Asset.Ethereum,
-    quote: Quote.BRL,
-    amount: 25,
-  },
-  {
-    base: Asset.UsdTether,
     quote: Quote.BRL,
     amount: 50,
   },
@@ -50,8 +45,8 @@ const task = async () => {
   }
 };
 
-// Runs every 2 hours
-job = new CronJob('0 */2 * * *', task, null, true, 'America/Sao_Paulo');
+// Runs every 6 hours
+job = new CronJob('0 */6 * * *', task, null, true, 'America/Sao_Paulo');
 
 const start = async () => {
   const next = job.nextDate();
@@ -65,5 +60,4 @@ const start = async () => {
 
 (async () => {
   await start();
-  await task();
 })();
