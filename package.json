@@ -6,6 +6,7 @@
   "main": "index.js",
   "scripts": {
     "build": "turbo build",
+    "start": "turbo start",
     "dev": "turbo dev",
     "ts:check": "turbo ts:check"
   },

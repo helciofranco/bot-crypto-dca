@@ -9,6 +9,9 @@
     "ts:check": {
       "dependsOn": ["^ts:check"]
     },
+    "start": {
+      "inputs": [".env*"]
+    },
     "dev": {
       "persistent": true,
       "cache": false
