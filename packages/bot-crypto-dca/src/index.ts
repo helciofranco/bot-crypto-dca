@@ -35,13 +35,12 @@ const task = async () => {
       })
       .join('\n\n');
 
-    await telegramService.sendMessage(output);
+    await telegramService.sendMessage(output || '💰 No orders sent');
 
     await telegramService.sendMessage(`🕒 Next run: ${job?.nextDate()}`);
   } catch (error) {
-    if (error instanceof Error) {
-      await telegramService.sendMessage(error.message);
-    }
+    console.error(error);
+    await telegramService.sendMessage('❌ An error has occurred');
   }
 };
 
