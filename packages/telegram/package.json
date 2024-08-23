@@ -1,0 +1,26 @@
+{
+  "name": "@helciofranco/telegram",
+  "version": "1.0.0",
+  "description": "Send notifications to Telegram",
+  "keywords": ["telegram"],
+  "author": "Hélcio Franco",
+  "license": "MIT",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "dev": "tsc --watch",
+    "build": "tsc",
+    "ts:check": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "axios": "1.7.3"
+  },
+  "dependencies": {
+    "ts-node": "10.9.2"
+  },
+  "devDependencies": {
+    "axios": "1.7.3"
+  }
+}
