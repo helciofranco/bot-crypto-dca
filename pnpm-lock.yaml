@@ -60,6 +60,9 @@ importers:
 
   packages/bot-crypto-dca:
     dependencies:
+      '@helciofranco/telegram':
+        specifier: workspace:*
+        version: link:../telegram
       axios:
         specifier: 1.7.3
         version: 1.7.3

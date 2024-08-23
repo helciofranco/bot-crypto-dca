@@ -1,11 +1,15 @@
 import { CronJob } from 'cron';
-import { TelegramService } from './modules/notification/TelegramService';
 import { BinanceService } from './modules/exchanges/BinanceService';
 import { Asset, type BuyParams, Quote } from './modules/exchanges/types';
 import { getMyIp } from './utils/getMyIp';
+import { TelegramService } from '@helciofranco/telegram';
 
 let job: CronJob | undefined = undefined;
-const telegramService = new TelegramService();
+const telegramService = new TelegramService(
+  process.env.TELEGRAM_CHAT_ID || '',
+  process.env.TELEGRAM_BOT_TOKEN || '',
+  process.env.TELEGRAM_ENABLED === 'true',
+);
 
 const assets: BuyParams[] = [
   {
