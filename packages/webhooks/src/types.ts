@@ -24,6 +24,8 @@ export type PayoutWebhookData = {
   };
 };
 
+export type AlchemyNetwork = 'ETH_MAINNET' | 'ARB_MAINNET';
+
 type AlchemyWebhookActivity = {
   blockNum: `0x${string}`;
   hash: `0x${string}`;
@@ -35,7 +37,7 @@ type AlchemyWebhookActivity = {
 
 export type AlchemyWebhookData = {
   event: {
-    network: 'ETH_MAINNET' | 'ARB_MAINNET';
+    network: AlchemyNetwork;
     activity: AlchemyWebhookActivity[];
   };
 };

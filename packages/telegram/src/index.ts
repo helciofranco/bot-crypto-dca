@@ -23,6 +23,8 @@ export class TelegramService {
     await this.client.post('sendMessage', {
       chat_id: this.chatId,
       text: message,
+      parse_mode: 'Markdown',
+      disable_web_page_preview: true,
     });
   }
 }

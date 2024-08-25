@@ -3,6 +3,8 @@ import express, { type Request, type Response } from 'express';
 import bodyParser from 'body-parser';
 import type { AlchemyWebhookData, PayoutWebhookData } from './types';
 import { TelegramService } from '@helciofranco/telegram';
+import { explorersUrl, networksName } from './constants';
+import { getShortAddress } from './utils';
 
 dotenv.config();
 
@@ -35,13 +37,18 @@ function handleBlindpay(data: PayoutWebhookData) {
 }
 
 function handleAlchemy(data: AlchemyWebhookData) {
+  const explorerUrl = explorersUrl[data.event.network];
+  const networkName = networksName[data.event.network];
+
   const activities = data.event.activity
     .map((activity) => {
-      return `🌐 Network: ${data.event.network}\n💰 Block: ${BigInt(activity.blockNum).toString()}\nTx: ${activity.hash}\nFrom: ${activity.fromAddress}\nTo: ${activity.toAddress}\n${activity.value} ${activity.asset}`;
+      return `From [${getShortAddress(activity.fromAddress)}](${explorerUrl}/address/${activity.fromAddress}) to [${getShortAddress(activity.toAddress)}](${explorerUrl}/address/${activity.toAddress})
+💰 ${activity.value} ${activity.asset}
+🌐 [View on explorer](${explorerUrl}/tx/${activity.hash})`;
     })
     .join('\n\n');
 
-  telegramService.sendMessage(activities);
+  telegramService.sendMessage(`*${networkName}*\n\n${activities}`);
 }
 
 app.listen(PORT, () => {

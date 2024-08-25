@@ -4,7 +4,8 @@
     "build": {
       "dependsOn": ["^build"],
       "inputs": [".env*"],
-      "outputs": ["dist/**"]
+      "outputs": ["dist/**"],
+      "cache": false
     },
     "ts:check": {
       "dependsOn": ["^ts:check"]
