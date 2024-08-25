@@ -23,3 +23,19 @@ export type PayoutWebhookData = {
     completed_at: string | null;
   };
 };
+
+type AlchemyWebhookActivity = {
+  blockNum: `0x${string}`;
+  hash: `0x${string}`;
+  fromAddress: `0x${string}`;
+  toAddress: `0x${string}`;
+  value: number;
+  asset: string;
+};
+
+export type AlchemyWebhookData = {
+  event: {
+    network: 'ETH_MAINNET' | 'ARB_MAINNET';
+    activity: AlchemyWebhookActivity[];
+  };
+};

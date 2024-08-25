@@ -21,7 +21,42 @@ importers:
         specifier: 5.5.4
         version: 5.5.4
 
-  packages/blindpay-webhooks:
+  packages/bot-crypto-dca:
+    dependencies:
+      '@helciofranco/telegram':
+        specifier: workspace:*
+        version: link:../telegram
+      axios:
+        specifier: 1.7.3
+        version: 1.7.3
+      cron:
+        specifier: 3.1.7
+        version: 3.1.7
+      crypto:
+        specifier: 1.0.1
+        version: 1.0.1
+      dotenv:
+        specifier: 16.4.5
+        version: 16.4.5
+      ts-node:
+        specifier: 10.9.2
+        version: 10.9.2(@types/node@22.1.0)(typescript@5.5.4)
+    devDependencies:
+      nodemon:
+        specifier: 3.1.4
+        version: 3.1.4
+
+  packages/telegram:
+    dependencies:
+      ts-node:
+        specifier: 10.9.2
+        version: 10.9.2(@types/node@22.1.0)(typescript@5.5.4)
+    devDependencies:
+      axios:
+        specifier: 1.7.3
+        version: 1.7.3
+
+  packages/webhooks:
     dependencies:
       '@helciofranco/telegram':
         specifier: workspace:*
@@ -57,41 +92,6 @@ importers:
       nodemon:
         specifier: 3.1.4
         version: 3.1.4
-
-  packages/bot-crypto-dca:
-    dependencies:
-      '@helciofranco/telegram':
-        specifier: workspace:*
-        version: link:../telegram
-      axios:
-        specifier: 1.7.3
-        version: 1.7.3
-      cron:
-        specifier: 3.1.7
-        version: 3.1.7
-      crypto:
-        specifier: 1.0.1
-        version: 1.0.1
-      dotenv:
-        specifier: 16.4.5
-        version: 16.4.5
-      ts-node:
-        specifier: 10.9.2
-        version: 10.9.2(@types/node@22.1.0)(typescript@5.5.4)
-    devDependencies:
-      nodemon:
-        specifier: 3.1.4
-        version: 3.1.4
-
-  packages/telegram:
-    dependencies:
-      ts-node:
-        specifier: 10.9.2
-        version: 10.9.2(@types/node@22.1.0)(typescript@5.5.4)
-    devDependencies:
-      axios:
-        specifier: 1.7.3
-        version: 1.7.3
 
 packages:
 

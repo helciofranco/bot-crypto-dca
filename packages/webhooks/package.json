@@ -1,8 +1,8 @@
 {
-  "name": "blindpay-webhooks",
+  "name": "@helciofranco/webhooks",
   "version": "1.0.0",
   "description": "Webhook listeners to send notifications to Telegram",
-  "keywords": ["telegram", "blindpay", "webhooks"],
+  "keywords": ["telegram", "webhooks"],
   "author": "Hélcio Franco",
   "license": "MIT",
   "main": "index.js",
