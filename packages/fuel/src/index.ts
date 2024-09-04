@@ -3,8 +3,8 @@ import express, { type Request, type Response } from 'express';
 import bodyParser from 'body-parser';
 import { TelegramService } from '@helciofranco/telegram';
 import axios from 'axios';
-import type { ChaiInfoData } from './types';
-import { query } from './constants';
+import type { ChainInfoData, IndexerBlocksData } from './types';
+import { getLatestBlock, getLatestSyncedBlock } from './constants';
 
 dotenv.config();
 
@@ -15,17 +15,17 @@ const telegramService = new TelegramService(
 );
 const app = express();
 const PORT = 3002;
-const blockHeightDiff = 20;
+const blockHeightDiff = 60;
 
 app.use(bodyParser.json());
 
 app.get('/indexer/mainnet', async (_req: Request, res: Response) => {
   try {
     const [{ data: core }, { data: indexer }] = await Promise.all([
-      axios.post<ChaiInfoData>(
+      axios.post<ChainInfoData>(
         process.env.FUEL_CORE_URL || '',
         {
-          query,
+          query: getLatestBlock,
         },
         {
           headers: {
@@ -34,10 +34,10 @@ app.get('/indexer/mainnet', async (_req: Request, res: Response) => {
           },
         },
       ),
-      axios.post<ChaiInfoData>(
+      axios.post<IndexerBlocksData>(
         process.env.FUEL_INDEXER_URL || '',
         {
-          query,
+          query: getLatestSyncedBlock,
         },
         {
           headers: {
@@ -50,7 +50,7 @@ app.get('/indexer/mainnet', async (_req: Request, res: Response) => {
     ]);
 
     const coreHeight = Number(core.data.chain.latestBlock.header.height);
-    const indexerHeight = Number(indexer.data.chain.latestBlock.header.height);
+    const indexerHeight = Number(indexer.data.blocks.nodes[0].height);
     const diff = coreHeight - indexerHeight;
 
     const response = {

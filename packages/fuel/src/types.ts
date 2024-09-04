@@ -1,4 +1,4 @@
-export type ChaiInfoData = {
+export type ChainInfoData = {
   data: {
     chain: {
       latestBlock: {
@@ -6,6 +6,14 @@ export type ChaiInfoData = {
           height: string;
         };
       };
+    };
+  };
+};
+
+export type IndexerBlocksData = {
+  data: {
+    blocks: {
+      nodes: [{ height: string }];
     };
   };
 };
