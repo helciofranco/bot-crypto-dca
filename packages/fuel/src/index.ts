@@ -14,7 +14,7 @@ const telegramService = new TelegramService(
   process.env.TELEGRAM_ENABLED === 'true',
 );
 const app = express();
-const PORT = 3001;
+const PORT = 3002;
 const blockHeightDiff = 20;
 
 app.use(bodyParser.json());
